@@ -5,21 +5,20 @@ import { Card } from '../components/Card';
 import { Controls } from '../components/Controls';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-   selectAllCountries,
    selectCountriesInfo,
    selectVisibleCountries,
 } from '../store/countries/countries-selectors';
 import { useEffect } from 'react';
 import { loadCountries } from '../store/countries/countries-actions';
-import { selectSearch } from '../store/controls/controls-selectors';
+import { selectControls } from '../store/controls/controls-selectors';
 
 export const HomePage = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-   const search = useSelector(selectSearch);
+   const { search, region, sort } = useSelector(selectControls);
    const countries = useSelector((state) =>
-      selectVisibleCountries(state, { search })
+      selectVisibleCountries(state, { search, region, sort })
    );
    const { status, error, qty } = useSelector(selectCountriesInfo);
 

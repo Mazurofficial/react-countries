@@ -17,6 +17,7 @@
     "react-select": "^5.4.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
+    "sort-objects-array": "^1.7.1",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
