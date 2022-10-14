@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { Search } from './Search';
 import { CustomSelect } from './CustomSelect';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-   selectControls,
-   selectRegion,
-} from '../store/controls/controls-selectors';
+import { selectControls } from '../store/controls/controls-selectors';
 import { setRegion, setSort } from '../store/controls/controls-actions';
 
 const optionsMap = {
