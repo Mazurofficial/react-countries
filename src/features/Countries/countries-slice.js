@@ -1,5 +1,43 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const sortObjectsArray = require('sort-objects-array');
 
+export const loadCountries = createAsyncThunk(
+   '@@countries/load-countries',
+   async (_, { extra: { client, api } }) => {
+      return client.get(api.ALL_COUNTRIES);
+   }
+);
+
+const initialState = {
+   status: 'idle',
+   error: null,
+   list: [],
+};
+
+const countrySlice = createSlice({
+   name: '@@countries',
+   initialState,
+   reducers: {},
+   extraReducers: (builder) => {
+      builder
+         .addCase(loadCountries.pending, (state) => {
+            state.status = 'loading';
+            state.error = null;
+         })
+         .addCase(loadCountries.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.error = action.payload || action.meta.error;
+         })
+         .addCase(loadCountries.fulfilled, (state, action) => {
+            state.status = 'received';
+            state.list = action.payload.data;
+         });
+   },
+});
+
+export const countryReducer = countrySlice.reducer;
+
+// selectors
 export const selectCountriesInfo = (state) => ({
    status: state.countries.status,
    error: state.countries.error,
@@ -7,7 +45,6 @@ export const selectCountriesInfo = (state) => ({
 });
 
 export const selectAllCountries = (state) => state.countries.list;
-
 export const selectVisibleCountries = (
    state,
    { search = '', region = '', sort = '' }
@@ -26,18 +63,6 @@ export const selectVisibleCountries = (
          return filteredCountries.reverse();
       }
       case 'population': {
-         //  const sortedCountries = filteredCountries.sort(
-         //     (countryA, countryB) => {
-         //        if (countryA.population < countryB.population) {
-         //           return -1;
-         //        }
-         //        if (countryA.population > countryB.population) {
-         //           return 1;
-         //        }
-         //        return 0;
-         //     }
-         //  );
-         //  return sortedCountries;
          return sortObjectsArray(filteredCountries, 'population');
       }
       case 'populationInverse': {

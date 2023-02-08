@@ -1,11 +1,8 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { IoMoon, IoMoonOutline } from 'react-icons/io5';
 
 import { Container } from './Container';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTheme } from '../store/theme/theme-actions';
+import ThemeSwitcher from '../features/ThemeSwitcher/ThemeSwitcher';
 
 const HeaderEl = styled.header`
    box-shadow: var(--shadow);
@@ -28,39 +25,13 @@ const Title = styled(Link).attrs({
    font-weight: var(--fw-bold);
 `;
 
-const ModeSwitcher = styled.div`
-   color: var(--colors-text);
-   font-size: var(--fs-sm);
-   cursor: pointer;
-   // font-weight: var(--fw-bold);
-   text-transform: capitalize;
-`;
-
 export const Header = () => {
-   const dispatch = useDispatch();
-   const theme = useSelector((state) => state.theme);
-
-   const toggleThemeSwitcher = () => {
-      dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
-   };
-
-   useEffect(() => {
-      document.body.setAttribute('data-theme', theme);
-   }, [theme]);
-
    return (
       <HeaderEl>
          <Container>
             <Wrapper>
                <Title>Where is the world?</Title>
-               <ModeSwitcher onClick={toggleThemeSwitcher}>
-                  {theme === 'light' ? (
-                     <IoMoonOutline size="14px" />
-                  ) : (
-                     <IoMoon size="14px" />
-                  )}{' '}
-                  <span style={{ marginLeft: '0.75rem' }}>{theme} Theme</span>
-               </ModeSwitcher>
+               <ThemeSwitcher />
             </Wrapper>
          </Container>
       </HeaderEl>
